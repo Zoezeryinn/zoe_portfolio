@@ -1,0 +1,228 @@
+* {
+    font-size: 1rem;
+    letter-spacing: .02rem;
+    line-height: 1.25;
+    font-family: 'Times New Roman', Times, serif;
+    list-style-type: none;
+}
+
+body {
+    background: rgb(239, 239, 239);
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+nav {
+    margin-bottom: 2rem;
+    position: fixed;
+    left: .5rem;
+    top: .5rem;
+    z-index: 10;
+}
+
+nav a {
+    font-size: 2rem;
+    color: black;
+}
+
+#nav-about {
+    position: relative;
+    z-index: 10;
+}
+
+
+
+#about-description {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(239, 239, 239);
+    z-index: 5;
+    mix-blend-mode: multiply;
+    padding: 3rem .5rem .5rem .5rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#about-description,
+#about-description p,
+#about-description a,
+#about-description ul li {
+    font-size: 2rem;
+}
+
+#about-description ul {
+    margin-top: 1.5rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Layout Structural Styles */
+.project-section {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 .5rem .5rem .5rem;
+}
+
+.project-section:first-child {
+    margin-top: 3rem;
+}
+
+
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carousel-item {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.carousel-item.active {
+    display: block;
+}
+
+.carousel-item img,
+.carousel-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+.project-info {}
+
+.project-title {
+    font-weight: 900;
+}
+
+.project-description {
+    width: 100%;
+}
+
+.info-left {
+    width: 100%;
+}
+
+.carousel-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+
+.carousel-nav-numbers {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: black;
+    mix-blend-mode: screen;
+    line-height: 1;
+    padding: 0.25rem .5rem .35rem .5rem;
+}
+
+.fullscreen-btn.hidden {
+    display: none !important;
+}
+
+.nav-thumb-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    height: 20px;
+    width: auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.nav-thumb-btn.active {
+    background-color: transparent !important;
+}
+
+.nav-thumb-btn img,
+.nav-thumb-btn video {
+    height: 100%;
+    width: auto;
+    display: block;
+    opacity: 0;
+}
+
+.nav-thumb-btn.active img,
+.nav-thumb-btn.active video {
+    opacity: 1;
+}
+
+
+@media (max-width: 768px) {
+
+    * {
+        font-size: 1rem;
+    }
+
+    nav a {
+        font-size: 1.5rem;
+    }
+
+    .project-section {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: .5rem !important;
+    }
+
+    #about-description {
+        padding: 4rem .5rem .5rem .5rem;
+    }
+
+    #about-description,
+    #about-description p,
+    #about-description a,
+    #about-description ul li {
+        font-size: 1.5rem;
+    }
+
+
+    .carousel-item img,
+    .carousel-item video {
+        object-fit: contain !important;
+    }
+
+}

@@ -1,0 +1,64 @@
+{
+  "about": {
+    "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto.",
+    "links": [
+      {
+        "label": "e-Mail",
+        "url": "mailto:zoe@example.com"
+      },
+      {
+        "label": "instagram",
+        "url": "https://instagram.com/zoe"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "title": "Project Title 1",
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto.",
+      "assets": [
+        {
+          "type": "image",
+          "src": "images/Scan 12.jpg",
+          "alt": "Scan 12"
+        },
+        {
+          "type": "image",
+          "src": "images/Scan 13.jpg",
+          "alt": "Scan 13"
+        },
+        {
+          "type": "image",
+          "src": "images/Scan 15.jpg",
+          "alt": "Scan 15"
+        }
+      ]
+    },
+    {
+      "title": "Project Title 2",
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in.",
+      "assets": [
+        {
+          "type": "video",
+          "src": "videos/IMG_6623.mp4"
+        }
+      ]
+    },
+    {
+      "title": "Project Title 3",
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in.",
+      "assets": [
+        {
+          "type": "image",
+          "src": "images/IMG_9485.jpg",
+          "alt": "IMG_9485"
+        },
+        {
+          "type": "image",
+          "src": "images/_DSC4612.jpg",
+          "alt": "IMG_7928"
+        }
+      ]
+    }
+  ]
+}
