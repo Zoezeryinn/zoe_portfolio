@@ -16,6 +16,12 @@ a {
     color: black;
 }
 
+#about-description a,
+.project-description a,
+.writing-text a {
+    text-decoration: underline;
+}
+
 nav {
     margin-bottom: 2rem;
     position: fixed;
@@ -254,29 +260,12 @@ nav a {
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes rotate-wormhole {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 .wormhole-button img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     transform-origin: center;
-    /* Infinite slow pulse/spin when resting */
-    animation: rotate-wormhole 40s linear infinite;
-    transition: transform 0.3s ease;
-}
-
-/* Swirl dynamically on hover (rapid spin!) */
-.wormhole-button:hover img {
-    animation: rotate-wormhole 2.5s linear infinite;
-}
-
-/* Continue swirling dynamically while the panel is active (open) */
-.wormhole-button.active img {
-    animation: rotate-wormhole 2.5s linear infinite !important;
+    will-change: transform;
 }
 
 .wormhole-button:active {
@@ -296,14 +285,12 @@ nav a {
     z-index: 90;
     box-sizing: border-box;
     padding: 0;
-    display: flex;
+    display: none;
     flex-direction: column;
-    transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #wormhole-panel.active {
-    transform: translateY(0);
+    display: flex;
 }
 
 .panel-content {
@@ -333,30 +320,49 @@ nav a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-/* 3. Raw/Default Writing Cards Layout (Align left-top, no card styling, margins or paddings) */
+/* 3. Responsive Flex-Grid Layout for Writings (Height and Width fit content) */
+#wormhole-writings-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
 .writing-card {
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;
+    padding: .25rem;
     text-align: left;
+    flex: 0 1 auto;
+    /* Cell size depends on content, responsive wrapping */
+    max-width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .writing-meta {
-    margin: 0;
-    padding: 0;
-    text-align: left;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
 }
 
 .writing-index,
 .writing-date {
-    margin: 0;
-    padding: 0;
     color: black;
 }
 
 .writing-text {
-    margin: 0;
-    padding: 0;
-    text-align: left;
     white-space: pre-wrap;
     color: black;
+}
+
+.writing-card img,
+.wormhole-image-file {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 0.5rem;
 }
