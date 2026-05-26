@@ -227,7 +227,7 @@ nav a {
 
     #wormhole-panel {
         width: 100vw !important;
-        padding: 4rem 1rem 1.5rem 1rem !important;
+        padding: 0 !important;
     }
 
 }
@@ -295,7 +295,7 @@ nav a {
     -webkit-backdrop-filter: blur(25px);
     z-index: 90;
     box-sizing: border-box;
-    padding: 6rem 2rem 4rem 2rem;
+    padding: 0;
     display: flex;
     flex-direction: column;
     transform: translateY(100%);
@@ -306,39 +306,13 @@ nav a {
     transform: translateY(0);
 }
 
-/* 3. Panel Header & Inner Elements */
-.panel-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-}
-
-#close-wormhole-btn {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    color: #000;
-    transition: opacity 0.2s ease;
-    padding: 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-#close-wormhole-btn:hover {
-    opacity: 0.5;
-}
-
 .panel-content {
     flex-grow: 1;
     overflow-y: auto;
-    max-width: 600px;
-    margin: 0 auto;
     width: 100%;
-    padding-right: 0.5rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* Custom Scrollbar for Panel */
@@ -359,40 +333,30 @@ nav a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-/* 4. Minimal Writing Cards (Default/No Border Styles) */
+/* 3. Raw/Default Writing Cards Layout (Align left-top, no card styling, margins or paddings) */
 .writing-card {
-    margin-bottom: 4.5rem;
-    position: relative;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.writing-card:last-child {
-    margin-bottom: 2rem;
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
 
 .writing-meta {
-    display: flex;
-    gap: 1.5rem;
-    align-items: baseline;
-    margin-bottom: 1.25rem;
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
 
-.writing-index {
-    font-size: 1.5rem;
-    font-weight: 300;
-    opacity: 0.35;
-    font-family: 'Times New Roman', Times, serif;
-}
-
+.writing-index,
 .writing-date {
-    font-size: 1rem;
-    color: #666;
-    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    color: black;
 }
 
 .writing-text {
-    font-size: 1.25rem;
-    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    text-align: left;
     white-space: pre-wrap;
-    color: #000;
+    color: black;
 }
