@@ -1,21 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Setup About toggle listener first
     const aboutBtn = document.getElementById('nav-about');
     const aboutDesc = document.getElementById('about-description');
+    const wormholeBtn = document.getElementById('wormhole-btn');
+    const wormholePanel = document.getElementById('wormhole-panel');
+    const closeWormholeBtn = document.getElementById('close-wormhole-btn');
 
+    // 1. Setup About toggle listener
     if (aboutBtn && aboutDesc) {
         aboutBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             aboutDesc.classList.toggle('hidden');
+            // Close wormhole panel if about is opened
+            if (wormholePanel) wormholePanel.classList.remove('active');
+        });
+        
+        // Prevent clicks inside the about description from closing the about view
+        aboutDesc.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
     }
 
-    // 2. Fetch and render data
+    // 2. Setup Wormhole panel listeners
+    if (wormholeBtn && wormholePanel) {
+        wormholeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            wormholePanel.classList.toggle('active');
+            // Close about description if wormhole is opened
+            if (aboutDesc) aboutDesc.classList.add('hidden');
+        });
+    }
+
+    if (closeWormholeBtn && wormholePanel) {
+        closeWormholeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            wormholePanel.classList.remove('active');
+        });
+    }
+
+    // Close open views on click outside
+    document.addEventListener('click', (e) => {
+        if (aboutDesc && aboutBtn && !aboutDesc.contains(e.target) && !aboutBtn.contains(e.target)) {
+            aboutDesc.classList.add('hidden');
+        }
+        if (wormholePanel && wormholeBtn && !wormholePanel.contains(e.target) && !wormholeBtn.contains(e.target)) {
+            wormholePanel.classList.remove('active');
+        }
+    });
+
+    // 3. Fetch and render data
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
             renderAbout(data.about);
             renderProjects(data.projects);
+            renderWormhole(data.wormhole);
             initializeCarousels();
         })
         .catch(err => console.error("Error loading portfolio data:", err));
@@ -51,6 +92,58 @@ function renderAbout(about) {
             aboutLinks.appendChild(li);
         });
     }
+}
+
+function renderWormhole(writings) {
+    const container = document.getElementById('wormhole-writings-list');
+    const button = document.getElementById('wormhole-btn');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // If there are no writings, hide the wormhole button
+    if (!writings || writings.length === 0) {
+        if (button) button.style.display = 'none';
+        return;
+    }
+    
+    if (button) button.style.display = 'flex'; // Ensure button is shown if there are writings
+
+    writings.forEach(writing => {
+        const card = document.createElement('div');
+        card.className = 'writing-card';
+
+        // Meta header (index + date)
+        const meta = document.createElement('div');
+        meta.className = 'writing-meta';
+
+        const index = document.createElement('span');
+        index.className = 'writing-index';
+        index.textContent = `#${writing.index}`;
+
+        const date = document.createElement('span');
+        date.className = 'writing-date';
+        date.textContent = writing.date;
+
+        meta.appendChild(index);
+        meta.appendChild(date);
+        card.appendChild(meta);
+
+        // Title (optional)
+        if (writing.title) {
+            const title = document.createElement('h4');
+            title.className = 'writing-title';
+            title.textContent = writing.title;
+            card.appendChild(title);
+        }
+
+        // Text Content (parsed for markdown links)
+        const text = document.createElement('div');
+        text.className = 'writing-text';
+        text.innerHTML = parseMarkdownLinks(writing.content);
+        card.appendChild(text);
+
+        container.appendChild(card);
+    });
 }
 
 function renderProjects(projects) {

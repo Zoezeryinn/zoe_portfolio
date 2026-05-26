@@ -39,7 +39,7 @@ async function listFilesInFolder(folderId) {
   try {
     const res = await drive.files.list({
       q: `'${folderId}' in parents and trashed = false`,
-      fields: 'files(id, name, mimeType)',
+      fields: 'files(id, name, mimeType, createdTime)',
       pageSize: 100,
     });
     return res.data.files || [];
@@ -131,12 +131,14 @@ async function build() {
   copyFile(path.join(__dirname, 'style.css'), path.join(distDir, 'style.css'));
   copyFile(path.join(__dirname, 'script.js'), path.join(distDir, 'script.js'));
   copyFile(path.join(__dirname, 'reset.css'), path.join(distDir, 'reset.css'));
+  copyFile(path.join(__dirname, 'swirl@2x.png'), path.join(distDir, 'swirl@2x.png'));
 
   // Get the contents of the main root portfolio folder
   const rootFiles = await listFilesInFolder(PORTFOLIO_FOLDER_ID);
   
   const aboutFolder = rootFiles.find(f => f.name.toLowerCase() === 'about' && f.mimeType === 'application/vnd.google-apps.folder');
   const projectsFolder = rootFiles.find(f => f.name.toLowerCase() === 'projects' && f.mimeType === 'application/vnd.google-apps.folder');
+  const wormholeFolder = rootFiles.find(f => f.name.toLowerCase() === 'wormhole' && f.mimeType === 'application/vnd.google-apps.folder');
 
   if (!aboutFolder || !projectsFolder) {
     console.error("Error: Could not find 'About' or 'Projects' folders in the specified Google Drive root.");
@@ -149,7 +151,8 @@ async function build() {
       description: "",
       links: []
     },
-    projects: []
+    projects: [],
+    wormhole: []
   };
 
   // --- 2. Process the "About" Folder ---
@@ -244,7 +247,38 @@ async function build() {
     resultData.projects.push(projectData);
   }
 
-  // --- 4. Write data.json ---
+  // --- 4. Process the "Wormhole" Folder (Optional) ---
+  if (wormholeFolder) {
+    console.log("Processing 'Wormhole' folder...");
+    const wormholeFiles = (await listFilesInFolder(wormholeFolder.id))
+      .filter(f => f.mimeType === 'application/vnd.google-apps.document' || f.name.endsWith('.txt'))
+      // Sort chronologically (oldest first)
+      .sort((a, b) => new Date(a.createdTime) - new Date(b.createdTime));
+
+    for (let i = 0; i < wormholeFiles.length; i++) {
+      const file = wormholeFiles[i];
+      console.log(`Reading writing: ${file.name}...`);
+      const content = await readTextFile(file);
+
+      // Format date beautifully (e.g. May 26, 2026)
+      const formattedDate = new Date(file.createdTime).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      resultData.wormhole.push({
+        index: i + 1,
+        title: formatTitle(file.name.replace(/\.txt$/i, '')),
+        content: content,
+        date: formattedDate
+      });
+    }
+  } else {
+    console.log("Wormhole folder not found in Google Drive root. Skipping wormhole section.");
+  }
+
+  // --- 5. Write data.json ---
   console.log("Writing data.json...");
   fs.writeFileSync(
     path.join(distDir, 'data.json'),

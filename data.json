@@ -60,5 +60,19 @@
         }
       ]
     }
+  ],
+  "wormhole": [
+    {
+      "index": 1,
+      "title": "On Changing Tides",
+      "content": "We try to apply permanence to a world that is always changing.\nWe build lighthouses on shifting shorelines.\n[click here](www.google.com) to read the full collection.",
+      "date": "May 26, 2026"
+    },
+    {
+      "index": 2,
+      "title": "Decay and Return",
+      "content": "A house is just material rearranged.\nA nest to hold us for a single season.\nFrom environment to home and back again.",
+      "date": "May 27, 2026"
+    }
   ]
 }
