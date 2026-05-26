@@ -16,6 +16,12 @@ a {
     color: black;
 }
 
+#about-description a,
+.project-description a,
+.writing-text a {
+    text-decoration: underline;
+}
+
 nav {
     margin-bottom: 2rem;
     position: fixed;
@@ -254,29 +260,12 @@ nav a {
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes rotate-wormhole {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 .wormhole-button img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     transform-origin: center;
-    /* Infinite slow pulse/spin when resting */
-    animation: rotate-wormhole 40s linear infinite;
-    transition: transform 0.3s ease;
-}
-
-/* Swirl dynamically on hover (rapid spin!) */
-.wormhole-button:hover img {
-    animation: rotate-wormhole 2.5s linear infinite;
-}
-
-/* Continue swirling dynamically while the panel is active (open) */
-.wormhole-button.active img {
-    animation: rotate-wormhole 2.5s linear infinite !important;
+    will-change: transform;
 }
 
 .wormhole-button:active {
@@ -331,50 +320,49 @@ nav a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-/* 3. Responsive Grid Layout for Writings */
+/* 3. Responsive Flex-Grid Layout for Writings (Height and Width fit content) */
 #wormhole-writings-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
-    gap: 0.5rem;
-    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0.25rem;
     box-sizing: border-box;
     width: 100%;
 }
 
 .writing-card {
     box-sizing: border-box;
-    padding: 3rem 2rem;
+    padding: .25rem;
     text-align: left;
+    flex: 0 1 auto;
+    /* Cell size depends on content, responsive wrapping */
+    max-width: 100%;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.writing-card:hover {
-    transform: translateY(-2px);
 }
 
 .writing-meta {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    width: 100%;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
 }
 
 .writing-index,
 .writing-date {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.5);
-    font-family: inherit;
+    color: black;
 }
 
 .writing-text {
-    font-size: 1.5rem;
-    line-height: 1.4;
     white-space: pre-wrap;
     color: black;
-    width: 100%;
+}
+
+.writing-card img,
+.wormhole-image-file {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 0.5rem;
 }

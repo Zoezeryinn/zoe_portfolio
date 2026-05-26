@@ -2,6 +2,7 @@ require('dotenv').config();
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 const PORTFOLIO_FOLDER_ID = process.env.PORTFOLIO_FOLDER_ID;
 
@@ -109,6 +110,38 @@ function copyFile(src, dest) {
 // Clean up folder name (e.g. "01_Project Title" -> "Project Title")
 function formatTitle(name) {
   return name.replace(/^\d+_+/, '').replace(/_+/g, ' ').trim();
+}
+
+async function processGoogleDoc(docId) {
+  try {
+    const res = await drive.files.export(
+      { fileId: docId, mimeType: 'text/html' },
+      { responseType: 'stream' }
+    );
+    
+    const html = await new Promise((resolve, reject) => {
+      const chunks = [];
+      res.data.on('data', chunk => chunks.push(Buffer.from(chunk)));
+      res.data.on('error', err => reject(err));
+      res.data.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    });
+
+    // Extract body content
+    const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    let bodyContent = bodyMatch ? bodyMatch[1] : html;
+
+    // Sanitize body content (remove style blocks, classes, inline styles, IDs)
+    bodyContent = bodyContent.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+    bodyContent = bodyContent.replace(/\s*style="[^"]*"/gi, "");
+    bodyContent = bodyContent.replace(/\s*class="[^"]*"/gi, "");
+    bodyContent = bodyContent.replace(/\s*id="[^"]*"/gi, "");
+    bodyContent = bodyContent.replace(/\s*dir="[^"]*"/gi, "");
+    
+    return bodyContent.trim();
+  } catch (err) {
+    console.error(`Error processing Google Doc ${docId} as HTML:`, err.message);
+    return "";
+  }
 }
 
 async function build() {
@@ -251,14 +284,39 @@ async function build() {
   if (wormholeFolder) {
     console.log("Processing 'Wormhole' folder...");
     const wormholeFiles = (await listFilesInFolder(wormholeFolder.id))
-      .filter(f => f.mimeType === 'application/vnd.google-apps.document' || f.name.endsWith('.txt'))
+      .filter(f => 
+        f.mimeType === 'application/vnd.google-apps.document' || 
+        f.name.endsWith('.txt') || 
+        f.mimeType.startsWith('image/')
+      )
       // Sort chronologically (oldest first)
       .sort((a, b) => new Date(a.createdTime) - new Date(b.createdTime));
 
     for (let i = 0; i < wormholeFiles.length; i++) {
       const file = wormholeFiles[i];
-      console.log(`Reading writing: ${file.name}...`);
-      const content = await readTextFile(file);
+      console.log(`Reading/downloading writing item: ${file.name}...`);
+      
+      let content = "";
+      
+      if (file.mimeType === 'application/vnd.google-apps.document') {
+        // Try parsing inline images and text via Google Docs HTML export
+        content = await processGoogleDoc(file.id);
+        // Fallback to text export if empty/fails
+        if (!content) {
+          content = await readTextFile(file);
+        }
+      } else if (file.mimeType.startsWith('image/')) {
+        // Download standalone image file directly to assets folder
+        const ext = path.extname(file.name).toLowerCase() || '.png';
+        const filename = `wormhole_${file.id}${ext}`;
+        const destPath = path.join(assetsDir, filename);
+        console.log(`Downloading standalone wormhole image: ${file.name} -> ${filename}...`);
+        await downloadFile(file.id, destPath);
+        
+        content = `<img src="assets/${filename}" class="wormhole-image-file" alt="${formatTitle(file.name)}" />`;
+      } else {
+        content = await readTextFile(file);
+      }
 
       // Format date beautifully (e.g. May 26, 2026)
       const formattedDate = new Date(file.createdTime).toLocaleDateString('en-US', {

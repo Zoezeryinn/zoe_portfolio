@@ -23,6 +23,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Setup Wormhole panel listeners
     if (wormholeBtn && wormholePanel) {
+        const wormholeIcon = wormholeBtn.querySelector('.wormhole-icon');
+        let currentAngle = 0;
+        let isHovered = false;
+
+        // Listen to hover states on desktop (only if device supports mouse hover pointers)
+        const hasHoverSupport = window.matchMedia('(hover: hover)').matches;
+        if (hasHoverSupport) {
+            wormholeBtn.addEventListener('mouseenter', () => { isHovered = true; });
+            wormholeBtn.addEventListener('mouseleave', () => { isHovered = false; });
+        }
+
+        function animateWormhole() {
+            // Speed in degrees per frame
+            let speed = 0.15; // Slow resting speed
+
+            if (wormholePanel.classList.contains('active')) {
+                speed = 2.4; // Very fast speed while open
+            } else if (isHovered) {
+                speed = 2.4; // Very fast speed on hover
+            }
+
+            currentAngle = (currentAngle + speed) % 360;
+            if (wormholeIcon) {
+                wormholeIcon.style.transform = `rotate(${currentAngle}deg)`;
+            }
+
+            requestAnimationFrame(animateWormhole);
+        }
+
+        // Start requestAnimationFrame loop
+        animateWormhole();
+
         wormholeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
