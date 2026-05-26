@@ -11,8 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             aboutDesc.classList.toggle('hidden');
-            // Close wormhole panel if about is opened
+            // Close wormhole panel and reset its button swirl if about is opened
             if (wormholePanel) wormholePanel.classList.remove('active');
+            if (wormholeBtn) wormholeBtn.classList.remove('active');
         });
         
         // Prevent clicks inside the about description from closing the about view
@@ -26,7 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
         wormholeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            wormholePanel.classList.toggle('active');
+            const isActive = wormholePanel.classList.toggle('active');
+            // Continuously swirl the button while the panel is active
+            if (isActive) {
+                wormholeBtn.classList.add('active');
+            } else {
+                wormholeBtn.classList.remove('active');
+            }
             // Close about description if wormhole is opened
             if (aboutDesc) aboutDesc.classList.add('hidden');
         });
@@ -37,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             wormholePanel.classList.remove('active');
+            if (wormholeBtn) wormholeBtn.classList.remove('active');
         });
     }
 
@@ -47,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (wormholePanel && wormholeBtn && !wormholePanel.contains(e.target) && !wormholeBtn.contains(e.target)) {
             wormholePanel.classList.remove('active');
+            wormholeBtn.classList.remove('active');
         }
     });
 
@@ -127,14 +136,6 @@ function renderWormhole(writings) {
         meta.appendChild(index);
         meta.appendChild(date);
         card.appendChild(meta);
-
-        // Title (optional)
-        if (writing.title) {
-            const title = document.createElement('h4');
-            title.className = 'writing-title';
-            title.textContent = writing.title;
-            card.appendChild(title);
-        }
 
         // Text Content (parsed for markdown links)
         const text = document.createElement('div');
