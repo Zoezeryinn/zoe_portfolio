@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutDesc = document.getElementById('about-description');
     const wormholeBtn = document.getElementById('wormhole-btn');
     const wormholePanel = document.getElementById('wormhole-panel');
-    const closeWormholeBtn = document.getElementById('close-wormhole-btn');
 
     // 1. Setup About toggle listener
     if (aboutBtn && aboutDesc) {
@@ -36,15 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // Close about description if wormhole is opened
             if (aboutDesc) aboutDesc.classList.add('hidden');
-        });
-    }
-
-    if (closeWormholeBtn && wormholePanel) {
-        closeWormholeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            wormholePanel.classList.remove('active');
-            if (wormholeBtn) wormholeBtn.classList.remove('active');
         });
     }
 
