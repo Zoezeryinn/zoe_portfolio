@@ -111,6 +111,12 @@ function renderWormhole(writings) {
         const card = document.createElement('div');
         card.className = 'writing-card';
 
+        // Generate a beautiful random light pastel HSL color for high text readability
+        const hue = Math.floor(Math.random() * 360);
+        const saturation = 55 + Math.floor(Math.random() * 15); // 55% - 70%
+        const lightness = 88 + Math.floor(Math.random() * 6);   // 88% - 94%
+        card.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
         // Meta header (index + date)
         const meta = document.createElement('div');
         meta.className = 'writing-meta';
