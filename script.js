@@ -91,6 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
             initializeCarousels();
         })
         .catch(err => console.error("Error loading portfolio data:", err));
+
+    // 4. Prevent zoom on desktop (trackpad pinch + keyboard shortcuts)
+    // Disable trackpad pinch-to-zoom (macOS and Windows trackpads)
+    document.addEventListener('wheel', (e) => {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Disable Safari double-finger pinch-to-zoom gesture
+    document.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+    });
+
+    // Disable keyboard shortcuts for zoom (Cmd/Ctrl + plus/minus/0)
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '-' || e.key === '+' || e.key === '0')) {
+            e.preventDefault();
+        }
+    });
 });
 
 function parseMarkdownLinks(text) {
