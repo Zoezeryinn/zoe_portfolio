@@ -8,6 +8,7 @@
 
 body {
     background: rgb(239, 239, 239);
+    touch-action: manipulation;
 }
 
 
