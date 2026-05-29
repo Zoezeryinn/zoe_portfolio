@@ -267,11 +267,6 @@ function renderProjects(projects) {
                 const audioContainer = document.createElement('div');
                 audioContainer.className = 'audio-container';
 
-                const audioTitle = document.createElement('div');
-                audioTitle.className = 'audio-title';
-                audioTitle.textContent = asset.alt || 'Audio Track';
-                audioContainer.appendChild(audioTitle);
-
                 const audio = document.createElement('audio');
                 audio.controls = true;
                 audio.preload = 'metadata';
