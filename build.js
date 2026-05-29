@@ -278,10 +278,15 @@ async function build() {
         assetType = 'audio';
       }
 
+      let altText = formatTitle(path.basename(media.name, ext));
+      if (assetType === 'audio') {
+        altText = media.name; // Use exact filename from Google Drive for audio files
+      }
+
       projectData.assets.push({
         type: assetType,
         src: `assets/${filename}`,
-        alt: formatTitle(path.basename(media.name, ext))
+        alt: altText
       });
     }
 
