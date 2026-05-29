@@ -15,6 +15,17 @@ body {
 a {
     text-decoration: none;
     color: black;
+    transition: letter-spacing 0.25s cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+@media (hover: hover) {
+    a:hover {
+        letter-spacing: 0.375rem !important;
+    }
+}
+
+#nav-about.active {
+    letter-spacing: 0.375rem !important;
 }
 
 #about-description a,
@@ -322,26 +333,41 @@ nav a {
 }
 
 /* 3. Responsive Flex-Grid Layout for Writings (Height and Width fit content) */
+/* 3. Responsive Masonry Column Layout for Writings */
 #wormhole-writings-list {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 0.25rem;
-    padding: 0.25rem;
+    column-count: 4;
+    column-gap: 0.5rem;
+    padding: 0.5rem;
     box-sizing: border-box;
     width: 100%;
 }
 
+@media (max-width: 1200px) {
+    #wormhole-writings-list {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    #wormhole-writings-list {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    #wormhole-writings-list {
+        column-count: 1;
+    }
+}
+
 .writing-card {
+    break-inside: avoid;
     box-sizing: border-box;
-    padding: .25rem;
+    margin-bottom: 0.5rem;
     text-align: left;
-    flex: 0 1 auto;
-    /* Cell size depends on content, responsive wrapping */
-    max-width: 100%;
-    margin: 0;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .writing-meta {
@@ -366,4 +392,74 @@ nav a {
     height: auto;
     display: block;
     margin-top: 0.5rem;
+}
+
+/* native fullscreen video ratio fix */
+video:fullscreen {
+    object-fit: contain !important;
+}
+
+video:-webkit-full-screen {
+    object-fit: contain !important;
+}
+
+/* Audio Player Carousel Item Styles */
+.audio-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(239, 239, 239);
+    /* Matches page body background perfectly */
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.audio-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+    text-align: center;
+    font-family: inherit;
+}
+
+.audio-container audio {
+    width: 90%;
+    max-width: 420px;
+    outline: none;
+}
+
+/* Audio thumbnail navigation style */
+.thumb-audio-icon {
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+/* About Description Developer/Designer Credit */
+.about-credit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0.5rem;
+    font-size: 1rem !important;
+    /* Forces the small project description typesize */
+    color: black;
+    opacity: 0.85;
+    z-index: 6;
+    /* Sits above standard contents */
+}
+
+.about-credit a {
+    font-size: 1rem !important;
+    text-decoration: underline;
+    /* Ensures the link is cleanly underlined */
+    color: black !important;
 }

@@ -269,9 +269,17 @@ async function build() {
       await downloadFile(media.id, destPath);
 
       const isVideo = media.mimeType.startsWith('video/') || ['.mp4', '.mov', '.webm'].includes(ext);
+      const isAudio = media.mimeType.startsWith('audio/') || ['.mp3', '.wav', '.ogg', '.m4a'].includes(ext);
+
+      let assetType = 'image';
+      if (isVideo) {
+        assetType = 'video';
+      } else if (isAudio) {
+        assetType = 'audio';
+      }
 
       projectData.assets.push({
-        type: isVideo ? 'video' : 'image',
+        type: assetType,
         src: `assets/${filename}`,
         alt: formatTitle(path.basename(media.name, ext))
       });
