@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         aboutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            aboutDesc.classList.toggle('hidden');
+            const isClosed = aboutDesc.classList.toggle('hidden');
+            aboutBtn.classList.toggle('active', !isClosed);
             // Close wormhole panel and reset its button swirl if about is opened
             if (wormholePanel) wormholePanel.classList.remove('active');
             if (wormholeBtn) wormholeBtn.classList.remove('active');
@@ -66,7 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 wormholeBtn.classList.remove('active');
             }
             // Close about description if wormhole is opened
-            if (aboutDesc) aboutDesc.classList.add('hidden');
+            if (aboutDesc) {
+                aboutDesc.classList.add('hidden');
+                if (aboutBtn) aboutBtn.classList.remove('active');
+            }
         });
     }
 
@@ -74,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         if (aboutDesc && aboutBtn && !aboutDesc.contains(e.target) && !aboutBtn.contains(e.target)) {
             aboutDesc.classList.add('hidden');
+            aboutBtn.classList.remove('active');
         }
         if (wormholePanel && wormholeBtn && !wormholePanel.contains(e.target) && !wormholeBtn.contains(e.target)) {
             wormholePanel.classList.remove('active');
@@ -82,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 3. Fetch and render data
-    fetch('data.json')
+    fetch('data.json?v=4')
         .then(response => response.json())
         .then(data => {
             renderAbout(data.about);
@@ -169,6 +174,19 @@ function renderWormhole(writings) {
         const lightness = 88 + Math.floor(Math.random() * 6);   // 88% - 94%
         card.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 
+        // Set all inner card paddings to exactly 0.5rem
+        card.style.padding = '0.5rem';
+
+        // Randomly make some cards span the entire width of the container (15% chance if there are multiple writings)
+        const shouldSpanFullWidth = writings.length > 2 && Math.random() < 0.15;
+        if (shouldSpanFullWidth) {
+            card.style.columnSpan = 'all';
+            card.style.marginBottom = '0.5rem';
+        } else {
+            card.style.columnSpan = 'none';
+            card.style.marginBottom = '0.5rem';
+        }
+
         // Meta header (index + date)
         const meta = document.createElement('div');
         meta.className = 'writing-meta';
@@ -190,6 +208,26 @@ function renderWormhole(writings) {
         text.className = 'writing-text';
         text.innerHTML = parseMarkdownLinks(writing.content);
         card.appendChild(text);
+
+        // Dynamically style any embedded images inside the card to make their sizes organic
+        const img = card.querySelector('img');
+        if (img) {
+            // Randomize image width (e.g. between 70% and 100%)
+            const randomWidth = 70 + Math.floor(Math.random() * 31); // 70% to 100%
+            img.style.width = `${randomWidth}%`;
+            // Randomly align images (left, center, or right) for an eclectic layout
+            const alignVal = Math.random();
+            if (alignVal < 0.33) {
+                img.style.marginLeft = '0';
+                img.style.marginRight = 'auto';
+            } else if (alignVal < 0.66) {
+                img.style.marginLeft = 'auto';
+                img.style.marginRight = 'auto';
+            } else {
+                img.style.marginLeft = 'auto';
+                img.style.marginRight = '0';
+            }
+        }
 
         container.appendChild(card);
     });
@@ -223,6 +261,38 @@ function renderProjects(projects) {
                 video.muted = true;
                 video.setAttribute('playsinline', '');
                 item.appendChild(video);
+            } else if (asset.type === 'audio') {
+                const audioContainer = document.createElement('div');
+                audioContainer.className = 'audio-container';
+
+                const audioTitle = document.createElement('div');
+                audioTitle.className = 'audio-title';
+                audioTitle.textContent = asset.alt || 'Audio Track';
+                audioContainer.appendChild(audioTitle);
+
+                const audio = document.createElement('audio');
+                audio.controls = true;
+
+                // Create source element to specify audio type explicitly (crucial for .m4a / audio/mp4 on Safari & Chrome)
+                const source = document.createElement('source');
+                source.src = asset.src;
+                if (asset.src.endsWith('.m4a')) {
+                    source.type = 'audio/mp4';
+                } else if (asset.src.endsWith('.mp3')) {
+                    source.type = 'audio/mpeg';
+                } else if (asset.src.endsWith('.wav')) {
+                    source.type = 'audio/wav';
+                } else if (asset.src.endsWith('.ogg')) {
+                    source.type = 'audio/ogg';
+                }
+                audio.appendChild(source);
+                audioContainer.appendChild(audio);
+                item.appendChild(audioContainer);
+
+                // CRITICAL: Stop click events from bubbling up to the carousel navigation click listener
+                audioContainer.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
             } else {
                 const img = document.createElement('img');
                 img.src = asset.src;
@@ -309,6 +379,7 @@ function initializeCarousels() {
                     const item = items[i];
                     const img = item.querySelector('img');
                     const video = item.querySelector('video');
+                    const audio = item.querySelector('audio');
 
                     if (img) {
                         const thumbImg = document.createElement('img');
@@ -323,6 +394,11 @@ function initializeCarousels() {
                         thumbVideo.loop = true;
                         thumbVideo.setAttribute('preload', 'metadata');
                         btn.appendChild(thumbVideo);
+                    } else if (audio) {
+                        const audioIcon = document.createElement('span');
+                        audioIcon.className = 'thumb-audio-icon';
+                        audioIcon.textContent = '🎵';
+                        btn.appendChild(audioIcon);
                     }
 
                     btn.addEventListener('click', (e) => {
@@ -349,6 +425,10 @@ function initializeCarousels() {
                     return video.videoWidth / video.videoHeight;
                 }
                 return null;
+            }
+            const audio = item.querySelector('audio');
+            if (audio) {
+                return 2.5; // Sweet widescreen aspect ratio for audio player slide
             }
             return null;
         };
@@ -425,7 +505,7 @@ function initializeCarousels() {
                 }
             }
 
-            // Handle video playback
+            // Handle video & audio playback
             items.forEach((item, index) => {
                 const video = item.querySelector('video');
                 if (video) {
@@ -438,6 +518,14 @@ function initializeCarousels() {
                     } else {
                         if (!video.paused) {
                             video.pause();
+                        }
+                    }
+                }
+                const audio = item.querySelector('audio');
+                if (audio) {
+                    if (index !== activeIndex) {
+                        if (!audio.paused) {
+                            audio.pause();
                         }
                     }
                 }
@@ -512,7 +600,25 @@ function initializeCarousels() {
 
         // Hook up direct click navigation: left half goes back, right half goes forward
         items.forEach((item) => {
+            // Update cursor on hover to show left/right arrow indicator
+            if (!item.querySelector('audio')) {
+                item.addEventListener('mousemove', (event) => {
+                    const rect = item.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const width = rect.width;
+                    if (mouseX < width / 2) {
+                        item.style.cursor = 'w-resize';
+                    } else {
+                        item.style.cursor = 'e-resize';
+                    }
+                });
+            }
+
             item.addEventListener('click', (event) => {
+                // If this item contains an audio player, completely skip direct click navigation
+                if (item.querySelector('audio')) {
+                    return;
+                }
                 const rect = item.getBoundingClientRect();
                 const clickX = event.clientX - rect.left;
                 const width = rect.width;
