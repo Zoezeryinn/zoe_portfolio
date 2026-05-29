@@ -260,6 +260,8 @@ function renderProjects(projects) {
                 video.loop = true;
                 video.muted = true;
                 video.setAttribute('playsinline', '');
+                video.setAttribute('controlsList', 'nodownload');
+                video.oncontextmenu = (e) => e.preventDefault();
                 item.appendChild(video);
             } else if (asset.type === 'audio') {
                 const audioContainer = document.createElement('div');
@@ -272,6 +274,10 @@ function renderProjects(projects) {
 
                 const audio = document.createElement('audio');
                 audio.controls = true;
+                audio.preload = 'metadata';
+                audio.setAttribute('playsinline', '');
+                audio.setAttribute('controlsList', 'nodownload');
+                audio.oncontextmenu = (e) => e.preventDefault();
 
                 // Create source element to specify audio type explicitly (crucial for .m4a / audio/mp4 on Safari & Chrome)
                 const source = document.createElement('source');
@@ -290,8 +296,16 @@ function renderProjects(projects) {
                 item.appendChild(audioContainer);
 
                 // CRITICAL: Stop click events from bubbling up to the carousel navigation click listener
+                // AND allow clicking anywhere on the container to play/pause the audio.
                 audioContainer.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    if (e.target !== audio) {
+                        if (audio.paused) {
+                            audio.play().catch(err => console.error('Audio playback failed:', err));
+                        } else {
+                            audio.pause();
+                        }
+                    }
                 });
             } else {
                 const img = document.createElement('img');

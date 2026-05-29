@@ -429,6 +429,8 @@ video:-webkit-full-screen {
 .audio-container audio {
     width: 90%;
     max-width: 420px;
+    height: 54px;
+    display: block;
     outline: none;
 }
 
