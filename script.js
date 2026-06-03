@@ -118,16 +118,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function formatLinkUrl(url) {
+    if (!url) return '';
+    let href = url.trim();
+    // If it starts with http://, https://, mailto:, or tel:, keep as is
+    if (/^(https?|mailto|tel):/i.test(href)) {
+        return href;
+    }
+    // If it looks like an email address (contains @ and no slash), prepend mailto:
+    if (href.includes('@') && !href.includes('/')) {
+        return 'mailto:' + href;
+    }
+    // Otherwise, assume it is a web URL and prepend https://
+    return 'https://' + href;
+}
+
 function parseMarkdownLinks(text) {
     if (!text) return '';
     // Converts markdown-style links like [Click Here](www.link.com) into HTML anchor tags.
     // If the URL doesn't have http:// or https://, it automatically prepends https:// so it isn't relative.
     return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
-        let href = url.trim();
-        if (!/^https?:\/\//i.test(href)) {
-            href = 'https://' + href;
-        }
-        return `<a href="${href}" target="_blank">${label}</a>`;
+        return `<a href="${formatLinkUrl(url)}" target="_blank">${label}</a>`;
     });
 }
 
@@ -141,7 +152,7 @@ function renderAbout(about) {
         about.links.forEach(link => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = link.url;
+            a.href = formatLinkUrl(link.url);
             a.textContent = link.label;
             a.target = "_blank";
             li.appendChild(a);
