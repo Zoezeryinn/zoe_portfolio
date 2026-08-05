@@ -9,6 +9,10 @@
       {
         "label": "Email",
         "url": "zoenggschmaiss@gmail.com"
+      },
+      {
+        "label": "Soundcloud",
+        "url": "https://on.soundcloud.com/ebRXWsjIkgfiSDTCgr"
       }
     ]
   },
@@ -418,6 +422,42 @@
           "type": "image",
           "src": "assets/1YdJjehlwuRN_vLIpsKLzPl7k7noKOx2-.jpg",
           "alt": "IMG 3237 copy"
+        }
+      ]
+    },
+    {
+      "title": "I only walk these streets in the dreams I dream",
+      "description": "",
+      "assets": [
+        {
+          "type": "image",
+          "src": "assets/1yJK5arjCbBwlVnq2Iu4JmZTxmi4cvAPvhn_4gXSZ6mA",
+          "alt": "I only walk these streets in the dreams I dream"
+        },
+        {
+          "type": "audio",
+          "src": "assets/1GtNttRlTQQl9CLU32nRDvzUiTqFPRAXx.m4a",
+          "alt": "poenies - 7_7_2026, 3.45 PM.m4a"
+        },
+        {
+          "type": "image",
+          "src": "assets/1CLbhRhJWluDbSX5SarogEWsl_oY7PVN7.jpg",
+          "alt": "Zoë Ng Gschmaiss EDV 2.JPG"
+        },
+        {
+          "type": "image",
+          "src": "assets/1aiwrA6evao0-5G_It0wAceYMlFkH9kH8.jpg",
+          "alt": "Zoë Ng Gschmaiss EDV 4.JPG"
+        },
+        {
+          "type": "image",
+          "src": "assets/1FoMfnKnIxqx8QPwEyTX-abLaj-JRUN-B.jpg",
+          "alt": "Zoë Ng Gschmaiss EDV 7.JPG"
+        },
+        {
+          "type": "image",
+          "src": "assets/1Kn-DK9yJ8XfYzqGs80TicnOXLdMq1hPs.jpg",
+          "alt": "Zoë Ng Gschmaiss EDV 8.JPG"
         }
       ]
     }
