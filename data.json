@@ -427,37 +427,37 @@
     },
     {
       "title": "I only walk these streets in the dreams I dream",
-      "description": "",
+      "description": "Encapsulating a memory or a dream of a place that you can no longer return to, or will never be the same as it was when you left. A city that doesn’t wait for you. This work deals with the emotions and experiences surrounding feelings of finding belonging and longing for home.\r\nTaking from the vocabulary of traditional metal shutters existing in the cityscape of Hong Kong, playing with the language systems present within it. I reflect on past memories stuck in time, through installation, sound and publication. \r\nLive instruments recorded and altered in collaboration with Julie Laures, existing field recordings found from internet archives. Publication existing of poetry and texts that I have written.",
       "assets": [
         {
           "type": "image",
-          "src": "assets/1yJK5arjCbBwlVnq2Iu4JmZTxmi4cvAPvhn_4gXSZ6mA",
-          "alt": "I only walk these streets in the dreams I dream"
+          "src": "assets/1nUUxrvL034n8AtnblmjIAGP6rQxjQ6qf.jpg",
+          "alt": "DSC9975"
+        },
+        {
+          "type": "image",
+          "src": "assets/1Q9hYXjSHcgpXInM_CYPomgcMqcqBWGRX.jpg",
+          "alt": "DSC9978-2"
+        },
+        {
+          "type": "image",
+          "src": "assets/13AMyANOhs-KgRi79g3k_XXKByrZzBVrv.jpg",
+          "alt": "DSC9983"
+        },
+        {
+          "type": "image",
+          "src": "assets/1FoMfnKnIxqx8QPwEyTX-abLaj-JRUN-B.jpg",
+          "alt": "1"
+        },
+        {
+          "type": "image",
+          "src": "assets/1Kn-DK9yJ8XfYzqGs80TicnOXLdMq1hPs.jpg",
+          "alt": "2"
         },
         {
           "type": "audio",
           "src": "assets/1GtNttRlTQQl9CLU32nRDvzUiTqFPRAXx.m4a",
           "alt": "poenies - 7_7_2026, 3.45 PM.m4a"
-        },
-        {
-          "type": "image",
-          "src": "assets/1CLbhRhJWluDbSX5SarogEWsl_oY7PVN7.jpg",
-          "alt": "Zoë Ng Gschmaiss EDV 2.JPG"
-        },
-        {
-          "type": "image",
-          "src": "assets/1aiwrA6evao0-5G_It0wAceYMlFkH9kH8.jpg",
-          "alt": "Zoë Ng Gschmaiss EDV 4.JPG"
-        },
-        {
-          "type": "image",
-          "src": "assets/1FoMfnKnIxqx8QPwEyTX-abLaj-JRUN-B.jpg",
-          "alt": "Zoë Ng Gschmaiss EDV 7.JPG"
-        },
-        {
-          "type": "image",
-          "src": "assets/1Kn-DK9yJ8XfYzqGs80TicnOXLdMq1hPs.jpg",
-          "alt": "Zoë Ng Gschmaiss EDV 8.JPG"
         }
       ]
     }
