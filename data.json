@@ -446,13 +446,18 @@
         },
         {
           "type": "image",
-          "src": "assets/1FoMfnKnIxqx8QPwEyTX-abLaj-JRUN-B.jpg",
+          "src": "assets/1Kz_1U33cmKY2VEgnA1tD_cFj8LITJ2wa",
           "alt": "1"
         },
         {
           "type": "image",
           "src": "assets/1Kn-DK9yJ8XfYzqGs80TicnOXLdMq1hPs.jpg",
           "alt": "2"
+        },
+        {
+          "type": "image",
+          "src": "assets/1FoMfnKnIxqx8QPwEyTX-abLaj-JRUN-B.jpg",
+          "alt": "3"
         },
         {
           "type": "audio",
